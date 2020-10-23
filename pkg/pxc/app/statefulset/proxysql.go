@@ -233,7 +233,7 @@ func (c *Proxy) SidecarContainers(spec *api.PodSpec, secrets string, cr *api.Per
 }
 
 func (c *Proxy) PMMContainer(spec *api.PMMSpec, secrets string, cr *api.PerconaXtraDBCluster) (*corev1.Container, error) {
-	ct := app.PMMClient(spec, secrets, cr.CompareVersionWith("1.2.0") >= 0)
+	ct := app.PMMClient(spec, secrets, cr.CompareVersionWith("1.2.0") >= 0, cr.CompareVersionWith("1.7.0") >= 0)
 
 	pmmEnvs := []corev1.EnvVar{
 		{

@@ -18,6 +18,7 @@ if [ ! -z "$OPENSHIFT" ]; then
 fi
 helm del monitoring || :
 helm install monitoring percona/pmm-server --set platform=$platform --version 2.7.0
+#helm install monitoring /Users/hors/percona/repos/hors_repos/cloud/percona-openshift/helm/pmm-server --set platform=$platform --version 2.11.1
 
 desc 'create PXC cluster'
 spinup_pxc "$cluster" "$test_dir/conf/$cluster.yml" 3 120
@@ -25,7 +26,6 @@ spinup_pxc "$cluster" "$test_dir/conf/$cluster.yml" 3 120
 desc 'check if pmm-client container enabled'
 compare_kubectl statefulset/$cluster-pxc
 compare_kubectl statefulset/$cluster-haproxy
-
 desc 'check mysql metrics'
 get_metric_values node_boot_time_seconds $cluster-pxc-0 admin:admin
 get_metric_values mysql_global_status_uptime $cluster-pxc-0 admin:admin
